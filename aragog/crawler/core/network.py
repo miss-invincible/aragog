@@ -1,10 +1,30 @@
 import requests
+import logging
+from requests.exceptions import HTTPError
+from ..constants import error
+from ..constants import network
 
 
-def make_request(url):
-    headers = {
-        'User - Agent': 'Mozilla / 5.0(WindowsNT6.1) AppleWebKit / 537.36(KHTML, likeGecko) Chrome / 41.0.2228.0Safari / 537.3'}
-    reg_url = 'https:XXXXOOOO'
-    # req = Request(url=url, headers=headers)
-    html = requests.get(url, headers)
-    print html.content
+def makeGetRequest(url):
+    logger = logging.getLogger(__name__)
+    response = requests.get(url=url, headers=getRequestHeaders())
+    logger.error(response)
+    response.raise_for_status()
+    try:
+        logger.error(error.SUCCESS)
+        return response.content
+    except HTTPError:
+        logger.error(error.RESPONSE_WITH_ERROR, HTTPError)
+        return None
+    except Exception as err:
+        logger.error(error.UNEXPECTED_ERROR, err)
+        return None
+
+
+def getRequestHeaders():
+    return {'User-Agent': network.USER_AGENT,
+            'Accept': network.ACCEPT,
+            'Accept-Charset': network.ACCEPT_CHARACTER_SET,
+            'Accept-Encoding': network.ACCEPT_ENCODING,
+            'Accept-Language': network.ACCEPT_LANGUAGE,
+            'Connection': network.CONNECTION}

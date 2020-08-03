@@ -1,30 +1,20 @@
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render
-from django.template import loader
-from .models import Question
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .forms import NameForm
+from .forms import UrlGatherer
 
 
 def index(request):
     if request.method == 'POST':
-        form = NameForm(request.POST)
-        if not form.is_valid():
+        form = UrlGatherer(request.POST)
+        if form.is_valid():
             context = {
                 'request': request,
-                'valid': form
+                'valid': form.cleaned_data['url'],
             }
             return render(request, 'crawler/output.html', context)
     else:
-        form = NameForm()
+        form = UrlGatherer()
 
     context = {
         'form': form,
     }
     return render(request, 'crawler/index.html', context)
-
-
-# def index(request):
-#     # return HttpResponse(template.render(context, request))
-#     return render(request, 'crawler/index.html', context)

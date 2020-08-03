@@ -1,6 +1,0 @@
-## The following requirements were added by pip freeze:
-asgiref==3.2.10
-Django==3.0.8
-isort==5.2.2
-pytz==2020.1
-sqlparse==0.3.1

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import UrlGatherer
+from .core import temp
 
 
 def index(request):
@@ -9,6 +10,7 @@ def index(request):
             context = {
                 'request': request,
                 'valid': form.cleaned_data['url'],
+                'data': temp.crawlTheUrl()
             }
             return render(request, 'crawler/output.html', context)
     else:

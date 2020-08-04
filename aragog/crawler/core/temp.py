@@ -1,25 +1,33 @@
 from . import parser
 import time
 import logging
+from urllib.parse import urlparse
+from ..constants import parser as parser_constants
 
 
-def crawlTheUrl():
+def crawlTheUrl(url):
     logger = logging.getLogger(__name__)
-    logger.error("heeedcd")
-    urlSet = set()
-    seed_url = "https://docs.python.org/"
+    parsed_url = urlparse(url)
+    if parsed_url.scheme == '':
+        parsed_url.scheme = parser_constants.DEFAULT_URL_SCHEME
+    seed_url = parsed_url.geturl()
+    url_set = set()
     logger.error("checking for: " + seed_url)
-    parser.htmlParse(seed_url, urlSet)
+    parser.htmlParse(seed_url, seed_url, url_set)
     visited = {seed_url: True}
-    while len(urlSet):
-        url = urlSet.pop()
-        # logger.error("checking for: ", url, "set len ", len(urlSet))
-        if url.encode(' ascii', 'ignore') not in visited.keys():
+    result = {}
+    cnt = 0
+    while len(url_set):
+        if cnt == 10:
+            break
+        logger.error("reached here..." + str(cnt))
+        url = url_set.pop()
+        if url.encode(parser_constants.URL_DECODING, 'ignore') not in visited.keys():
             logger.error("visiting: " + url)
-            # print("visiting: ", url, "set len ", len(urlSet))
-            for i in range(5):
-                print("waiting...", i)
-                time.sleep(1)
-            parser.htmlParse(url, urlSet)
+            # for i in range(5):
+            #     logger.error("waiting..." + str(i))
+            #     time.sleep(1)
+            parser.htmlParse(seed_url, url, url_set, result)
             visited[url] = True
-    return visited
+        cnt += 1
+    return result

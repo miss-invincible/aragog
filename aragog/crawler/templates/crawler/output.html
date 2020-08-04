@@ -1,1 +1,17 @@
-<p> Done! {{ data }}</p>
+{% load static %}
+<link rel="stylesheet" href="../../static/css/crawler/output.css">
+<link rel="stylesheet" href="../../static/css/crawler/aragog.css">
+<div>
+<table>
+{% for key, value in data %}
+    <tr><th><b>{{ key }}</b></th></tr>
+    {% for child in value %}
+        <tr><td>{{ child }}</td></tr>
+    {% endfor %}
+{% endfor %}
+</table>
+</div>
+
+
+
+

@@ -9,8 +9,8 @@ def index(request):
         if form.is_valid():
             context = {
                 'request': request,
-                'valid': form.cleaned_data['url'],
-                'data': temp.crawlTheUrl()
+                'url': form.cleaned_data['url'],
+                'data': temp.crawlTheUrl(form.cleaned_data['url']).items(),
             }
             return render(request, 'crawler/output.html', context)
     else:

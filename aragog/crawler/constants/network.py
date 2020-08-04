@@ -1,0 +1,6 @@
+USER_AGENT = "AppleWebKit/537.11 (KHTML, like Gecko)"
+ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+ACCEPT_CHARACTER_SET = "ISO-8859-1,utf-8;q=0.7,*;q=0.3"
+ACCEPT_ENCODING = "none"
+ACCEPT_LANGUAGE = "en-US,en;q=0.8"
+CONNECTION = "keep-alive"
